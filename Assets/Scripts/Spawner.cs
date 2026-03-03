@@ -3,11 +3,13 @@ using UnityEngine.Pool;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameObject _prefab;
+    [SerializeField] private Enemy _prefab;
     private ObjectPool<Enemy> _pool;
     private int _poolDefaultCapacity = 10;
     private int _poolMaxSize = 20;
-    private float _radiusOfSpawn = 30f;
+    private float _minLengh = 10f;
+    private float _maxLengh = 25f;
+    private Vector3[] _directions = new Vector3[] {Vector3.forward, Vector3.back, Vector3.left, Vector3.right};
 
     private void Awake()
     {
@@ -24,18 +26,23 @@ public class Spawner : MonoBehaviour
     public void PrepareEnemy()
     {
         Enemy enemy = GetSpawnedEnemy();
-        Vector3 point = GetRandomPoint();
-        enemy.SetPoint(point);
-        enemy.transform.LookAt(point);
-        enemy.GetComponent<Mover>().IsMoving = true;
+
+        if (enemy.TryGetComponent<Mover>(out Mover enemyMover))
+        {
+            Vector3 direction = GetRandomDirection();
+            float directionLengh = Random.Range(_minLengh, _maxLengh);
+            Vector3 targetPosition = enemy.transform.position + direction * directionLengh;
+            enemy.SetDirection(targetPosition);
+            enemy.transform.rotation = Quaternion.LookRotation(direction);
+            enemyMover.IsMoving = true;
+        }
     }
 
     private Enemy Create()
     {
-        GameObject cube = Instantiate(_prefab);
-        cube.transform.SetParent(transform);
-        Enemy enemy = cube.GetComponent<Enemy>();
-        
+        Enemy enemy = Instantiate(_prefab);
+        enemy.transform.SetParent(transform);
+
         return enemy;
     }
 
@@ -48,13 +55,11 @@ public class Spawner : MonoBehaviour
         return enemy;
     }
 
-    private Vector3 GetRandomPoint()
+    private Vector3 GetRandomDirection()
     {
-        Vector2 randomCircle = Random.insideUnitCircle * _radiusOfSpawn;
-        Vector3 randomPoint = transform.position + new Vector3(randomCircle.x, 0f, randomCircle.y);
+        int randomIndex = Random.Range(0, _directions.Length);
 
-
-        return randomPoint;
+        return _directions[randomIndex];
     }
 
     private void ReleaseToPool(Enemy enemy)

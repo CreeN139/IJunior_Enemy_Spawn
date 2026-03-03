@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _speed = 2f;
     [SerializeField] private float _lifeTime = 4f;
     private Mover _mover;
-    private Vector3 _pointToMove;
+    private Vector3 _directionToMove;
 
     public UnityAction<Enemy> LifeEnded;
 
@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        _mover.Move(_speed, _pointToMove);
+        _mover.Move(_speed, _directionToMove);
     }
 
     private void OnEnable()
@@ -32,9 +32,9 @@ public class Enemy : MonoBehaviour
         _mover.MovementEnded -= () => StartCoroutine(WaitForDeactivate());
     }
 
-    public void SetPoint(Vector3 point)
+    public void SetDirection(Vector3 direction)
     {
-        _pointToMove = point;
+        _directionToMove = direction;
     }
 
     private IEnumerator WaitForDeactivate()
