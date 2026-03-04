@@ -4,13 +4,7 @@ using System.Collections;
 public class SpawnSelector : MonoBehaviour
 {
     [SerializeField] private float _timeBetweenSpawn;
-
-    private Spawner[] _spawners;
-
-    private void Awake()
-    {
-        _spawners = GetComponentsInChildren<Spawner>();
-    }
+    [SerializeField] private Spawner[] _spawners;
 
     private void Start()
     {
@@ -19,12 +13,14 @@ public class SpawnSelector : MonoBehaviour
 
     private IEnumerator SelectSpawnRoutine()
     {
-        while (true)
+        WaitForSeconds Delay = new WaitForSeconds(_timeBetweenSpawn);
+
+        while (enabled)
         {
-            yield return new WaitForSeconds(_timeBetweenSpawn);
+            yield return Delay;
 
             int randomIndex = Random.Range(0, _spawners.Length);
-            _spawners[randomIndex].PrepareEnemy();
+            _spawners[randomIndex].SpawnEnemy();
         }
     }
 }

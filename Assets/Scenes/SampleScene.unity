@@ -326,6 +326,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 488b66a3f3044fe498ec559d216c78c7, type: 3}
+--- !u!114 &355217043 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5028458903786723857, guid: 488b66a3f3044fe498ec559d216c78c7, type: 3}
+  m_PrefabInstance: {fileID: 355217042}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c42af52a9be2364c8b78927a69f3f8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Spawner
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,6 +494,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnManager
   _timeBetweenSpawn: 2
+  _spawners:
+  - {fileID: 1277254775}
+  - {fileID: 355217043}
+  - {fileID: 1878671909}
 --- !u!4 &510350670
 Transform:
   m_ObjectHideFlags: 0
@@ -625,6 +640,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 488b66a3f3044fe498ec559d216c78c7, type: 3}
+--- !u!114 &1277254775 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5028458903786723857, guid: 488b66a3f3044fe498ec559d216c78c7, type: 3}
+  m_PrefabInstance: {fileID: 1277254774}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c42af52a9be2364c8b78927a69f3f8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Spawner
 --- !u!1 &1313372952
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,6 +825,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 488b66a3f3044fe498ec559d216c78c7, type: 3}
+--- !u!114 &1878671909 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5028458903786723857, guid: 488b66a3f3044fe498ec559d216c78c7, type: 3}
+  m_PrefabInstance: {fileID: 1878671908}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c42af52a9be2364c8b78927a69f3f8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Spawner
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

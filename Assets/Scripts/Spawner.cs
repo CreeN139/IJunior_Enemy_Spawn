@@ -23,18 +23,16 @@ public class Spawner : MonoBehaviour
             maxSize: _poolMaxSize);
     }
 
-    public void PrepareEnemy()
+    public void SpawnEnemy()
     {
         Enemy enemy = GetSpawnedEnemy();
 
-        if (enemy.TryGetComponent<Mover>(out Mover enemyMover))
+        if (enemy.TryGetComponent<Mover>(out _))
         {
             Vector3 direction = GetRandomDirection();
             float directionLengh = Random.Range(_minLengh, _maxLengh);
-            Vector3 targetPosition = enemy.transform.position + direction * directionLengh;
-            enemy.SetDirection(targetPosition);
-            enemy.transform.rotation = Quaternion.LookRotation(direction);
-            enemyMover.IsMoving = true;
+            Vector3 correctedDirection = direction * directionLengh;
+            enemy.Initialize(correctedDirection);
         }
     }
 

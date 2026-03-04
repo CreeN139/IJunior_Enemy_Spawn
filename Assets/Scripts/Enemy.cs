@@ -1,6 +1,6 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
+using System.Collections;
+using System;
 
 [RequireComponent(typeof(Mover))]
 public class Enemy : MonoBehaviour
@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     private Mover _mover;
     private Vector3 _directionToMove;
 
-    public UnityAction<Enemy> LifeEnded;
+    public event Action<Enemy> LifeEnded;
 
     private void Awake()
     {
@@ -24,22 +24,29 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        _mover.MovementEnded += () => StartCoroutine(WaitForDeactivate());
+        _mover.MovementEnded += StartRoutine;
     }
 
     private void OnDisable()
     {
-        _mover.MovementEnded -= () => StartCoroutine(WaitForDeactivate());
+        _mover.MovementEnded -= StartRoutine;
     }
 
-    public void SetDirection(Vector3 direction)
+    public void Initialize(Vector3 direction)
     {
-        _directionToMove = direction;
+        _directionToMove = transform.position + direction;
+        transform.rotation = Quaternion.LookRotation(direction);
+        _mover.StartMovement();
     }
 
     private IEnumerator WaitForDeactivate()
     {
         yield return new WaitForSeconds(_lifeTime);
         LifeEnded?.Invoke(this);
+    }
+
+    private void StartRoutine()
+    {
+        StartCoroutine(WaitForDeactivate());
     }
 }
