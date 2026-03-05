@@ -7,8 +7,6 @@ public class Spawner : MonoBehaviour
     private ObjectPool<Enemy> _pool;
     private int _poolDefaultCapacity = 10;
     private int _poolMaxSize = 20;
-    private float _minLengh = 10f;
-    private float _maxLengh = 25f;
     private Vector3[] _directions = new Vector3[] {Vector3.forward, Vector3.back, Vector3.left, Vector3.right};
 
     private void Awake()
@@ -30,9 +28,7 @@ public class Spawner : MonoBehaviour
         if (enemy.TryGetComponent<Mover>(out _))
         {
             Vector3 direction = GetRandomDirection();
-            float directionLengh = Random.Range(_minLengh, _maxLengh);
-            Vector3 correctedDirection = direction * directionLengh;
-            enemy.Initialize(correctedDirection);
+            enemy.Initialize(direction);
         }
     }
 

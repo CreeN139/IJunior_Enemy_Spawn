@@ -5,48 +5,42 @@ using System;
 [RequireComponent(typeof(Mover))]
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _speed = 2f;
-    [SerializeField] private float _lifeTime = 4f;
+    [Range(1f, 2f)]
+    [SerializeField] private float _speed = 1.5f;
+    [SerializeField] private float _lifeTime = 5f;
     private Mover _mover;
     private Vector3 _directionToMove;
+    private WaitForSeconds _lifeDelay;
+    private Coroutine _coroutine;
 
     public event Action<Enemy> LifeEnded;
 
     private void Awake()
     {
         _mover = GetComponent<Mover>();
+        _lifeDelay = new WaitForSeconds(_lifeTime);
     }
 
     private void Update()
     {
         _mover.Move(_speed, _directionToMove);
-    }
 
-    private void OnEnable()
-    {
-        _mover.MovementEnded += StartRoutine;
-    }
-
-    private void OnDisable()
-    {
-        _mover.MovementEnded -= StartRoutine;
+        if (_coroutine == null)
+        {
+            _coroutine = StartCoroutine(WaitForDeactivate());
+        }
     }
 
     public void Initialize(Vector3 direction)
     {
-        _directionToMove = transform.position + direction;
+        _directionToMove = direction;
         transform.rotation = Quaternion.LookRotation(direction);
-        _mover.StartMovement();
     }
 
     private IEnumerator WaitForDeactivate()
     {
-        yield return new WaitForSeconds(_lifeTime);
+        yield return _lifeDelay;
         LifeEnded?.Invoke(this);
-    }
-
-    private void StartRoutine()
-    {
-        StartCoroutine(WaitForDeactivate());
+        _coroutine = null;
     }
 }
